@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lagou.dao.RoleMapper">
+    <select id="findAllRole" parameterType="Role" resultType="Role">
+        select * from roles
+        <where>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+        </where>
+    </select>
+
+    <select id="findMenuByRoleId" parameterType="int" resultType="String">
+        SELECT menu_id FROM `role_menu_relation` rmr WHERE rmr.role_id = #{role_id}
+    </select>
+
+    <delete id="deleteRoleContextMenu" parameterType="int">
+        delete  from role_menu_relation where role_id = #{role_id}
+    </delete>
+
+    <insert id="RoleContextMenu" parameterType="Role_menu_relation">
+        insert into role_menu_relation values(null,#{menuId},#{roleId},#{createdTime},#{updatedTime},#{createdBy},#{updatedby})
+    </insert>
+
+    <delete id="deleteRole" parameterType="int">
+        delete from roles where id = #{roleId}
+    </delete>
+</mapper>
